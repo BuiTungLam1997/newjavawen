@@ -1,6 +1,6 @@
 package com.example.javaweb.model;
 
-public class CommentModel extends AbstractModel{
+public class CommentModel extends AbstractModel<CommentModel>{
     private Long userId;
     private Long newId;
     private String content;

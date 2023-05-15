@@ -18,12 +18,12 @@
                         <a class="nav-link" href='#'>Wellcome, ${USERMODEL.fullName}</a>
                     </li>
                     <li class="nav-item">
-<%--                        <a class="nav-link" href='<c:url value="/thoat?action=logout"/>'>Thoát</a>--%>
+                        <a class="nav-link" href='<c:url value="/thoat?action=logout"/>'>Thoát</a>
                     </li>
                 </c:if>
                 <c:if test="${empty USERMODEL}">
                     <li class="nav-item">
-<%--                        <a class="nav-link" href='<c:url value="/dang-nhap?action=login"/>'>Đăng nhập</a>--%>
+                        <a class="nav-link" href='<c:url value="/dang-nhap?action=login"/>'>Đăng nhập</a>
                     </li>
                 </c:if>
             </ul>

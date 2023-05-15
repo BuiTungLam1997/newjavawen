@@ -1,11 +1,20 @@
 package com.example.javaweb.model;
 
-public class NewModel extends AbstractModel{
+public class NewModel extends AbstractModel<NewModel>{
     private String title;
     private String content;
     private String thumbnail;
     private String shortDescription;
     private Long categoryId;
+    private String categoryCode;
+
+    public String getCategoryCode() {
+        return categoryCode;
+    }
+
+    public void setCategoryCode(String categoryCode) {
+        this.categoryCode = categoryCode;
+    }
 
     public String getTitle() {
         return title;

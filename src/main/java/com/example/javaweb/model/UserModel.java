@@ -2,12 +2,21 @@ package com.example.javaweb.model;
 
 import java.sql.Timestamp;
 
-public class UserModel extends AbstractModel{
+public class UserModel extends AbstractModel<UserModel>{
     private String userName;
     private String password;
     private String fullName;
     private int status;
     private Long roleId;
+    private RoleModel role = new RoleModel();
+
+    public RoleModel getRole() {
+        return role;
+    }
+
+    public void setRole(RoleModel role) {
+        this.role = role;
+    }
 
     public int getStatus() {
         return status;

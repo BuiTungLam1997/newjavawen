@@ -1,64 +1,34 @@
 package com.example.javaweb.dao.impl;
 
 import com.example.javaweb.dao.ICategoryDAO;
+import com.example.javaweb.mapper.CategoryMapper;
+import com.example.javaweb.mapper.NewMapper;
 import com.example.javaweb.model.CategoryModel;
+import com.example.javaweb.model.NewModel;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryDAO implements ICategoryDAO {
+public class CategoryDAO extends AbstractDAO implements ICategoryDAO {
 
-    public Connection getConnection() {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");//load driver
-            String url = "jdbc:mysql://localhost:3306/newjavaweb";
-            String user = "root";
-            String password = "Tiki@1eio";
-            return DriverManager.getConnection(url, user, password);
-        } catch (ClassNotFoundException | SQLException e) {
-            return null;
-        }
-    }
     @Override
     public List<CategoryModel> findAll() {
-        List<CategoryModel> results = new ArrayList<>();
         String sql = "select * from category";
-        //open connetion
-        Connection connection = getConnection();
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        if (connection != null) {
-            try {
-                statement = connection.prepareStatement(sql);
-                resultSet = statement.executeQuery();
-                while (resultSet.next()) {
-                    CategoryModel category = new CategoryModel();
-                    category.setId(resultSet.getLong("id"));
-                    category.setCode(resultSet.getString("code"));
-                    category.setName(resultSet.getString("name"));
-                    results.add(category);
-                }
-                return results;
+        return query(sql, new CategoryMapper());
+    }
 
-            } catch (SQLException e) {
-                return null;
-            } finally {
-                try {
-                    if (connection != null) {
-                        connection.close();
-                    }
-                    if (statement != null) {
-                        statement.close();
-                    }
-                    if (resultSet != null) {
-                        resultSet.close();
-                    }
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-        return results;
+    @Override
+    public CategoryModel findOne(long id) {
+        String sql = "select * from category where id = ?";
+        List<CategoryModel> categoryModels = query(sql, new CategoryMapper(), id);
+        return categoryModels.isEmpty() ? null : categoryModels.get(0);
+    }
+
+    @Override
+    public CategoryModel findOneByCode(String code) {
+        String sql = "select * from category where code = ?";
+        List<CategoryModel> categoryModels = query(sql, new CategoryMapper(), code);
+        return categoryModels.isEmpty() ? null : categoryModels.get(0);
     }
 }
