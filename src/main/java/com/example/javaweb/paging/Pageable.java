@@ -2,7 +2,7 @@ package com.example.javaweb.paging;
 
 import com.example.javaweb.sort.Sorter;
 
-public interface Pageble {
+public interface Pageable {
     Integer getPage();
 
     Integer getOffset();
@@ -10,4 +10,6 @@ public interface Pageble {
     Integer getLimit();
 
     Sorter getSorter();
+
+
 }

@@ -1,9 +1,10 @@
 package com.example.javaweb.dao;
 
+import com.example.javaweb.controller.admin.api.request.NewQuery;
 import com.example.javaweb.model.NewModel;
-import com.example.javaweb.paging.Pageble;
+import com.example.javaweb.paging.Page;
+import com.example.javaweb.paging.Pageable;
 
-import javax.enterprise.inject.New;
 import java.util.List;
 
 public interface INewDAO extends GenericDAO<NewModel>{
@@ -12,6 +13,8 @@ public interface INewDAO extends GenericDAO<NewModel>{
     void delete (long id);
     NewModel findOne(Long id);
     void update(NewModel newModel);
-    List<NewModel> findAll(Pageble pageble);
+    List<NewModel> findAll(Pageable pageable);
     int getToTalItem();
+
+    Page<NewModel> query(NewModel query, Pageable pageable);
 }

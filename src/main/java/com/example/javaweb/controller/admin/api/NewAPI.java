@@ -1,7 +1,11 @@
 package com.example.javaweb.controller.admin.api;
 
+import com.example.javaweb.controller.admin.api.request.NewQuery;
 import com.example.javaweb.model.NewModel;
 import com.example.javaweb.model.UserModel;
+import com.example.javaweb.paging.Page;
+import com.example.javaweb.paging.PageRequest;
+import com.example.javaweb.paging.Pageable;
 import com.example.javaweb.service.INewService;
 import com.example.javaweb.service.impl.NewService;
 import com.example.javaweb.utils.HttpUtil;
@@ -16,6 +20,7 @@ import java.io.IOException;
 @WebServlet(urlPatterns = {"/api-admin-new"})
 public class NewAPI extends HttpServlet {
     private INewService newService;
+    private ObjectMapper mapper = new ObjectMapper();
 
     public NewAPI() {
         newService = new NewService();
@@ -23,7 +28,12 @@ public class NewAPI extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        request.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json");
+        NewQuery queryModel = HttpUtil.of(request.getReader()).toModel(NewQuery.class);
+        Pageable pageable = PageRequest.of(queryModel.getPage(), queryModel.getSize());
+        Page<NewModel> queryResult = newService.query(queryModel, pageable);
+        mapper.writeValue(response.getOutputStream(), queryResult);
     }
 
     @Override
@@ -33,7 +43,7 @@ public class NewAPI extends HttpServlet {
         response.setContentType("application/json");//dinh dang du lieu tra ve cho client(tra ve du lieu dang json)
         // request.getReader() nhan du lieu tu client
         NewModel newModel = HttpUtil.of(request.getReader()).toModel(NewModel.class);//convert tu json sang newmodel
-        newModel.setCreatedBy(((UserModel) SessionUtils.getInstance().getValue(request,"USERMODEL")).getUserName());
+        newModel.setCreatedBy(((UserModel) SessionUtils.getInstance().getValue(request, "USERMODEL")).getUserName());
         newModel = newService.save(newModel);
         mapper.writeValue(response.getOutputStream(), newModel);//tra du lieu cho client
 
@@ -45,7 +55,7 @@ public class NewAPI extends HttpServlet {
         request.setCharacterEncoding("UTF-8");//nhan du lieu dang tieng viet co dau
         response.setContentType("application/json");//dinh dang du lieu tra ve cho client(tra ve du lieu dang json)
         NewModel updateNew = HttpUtil.of(request.getReader()).toModel(NewModel.class);//convert tu json sang newmodel
-        updateNew.setCreatedBy(((UserModel) SessionUtils.getInstance().getValue(request,"USERMODEL")).getUserName());
+        updateNew.setCreatedBy(((UserModel) SessionUtils.getInstance().getValue(request, "USERMODEL")).getUserName());
         updateNew = newService.update(updateNew);
         mapper.writeValue(response.getOutputStream(), updateNew);
     }
