@@ -2,9 +2,7 @@ package com.example.javaweb.paging;
 
 import com.example.javaweb.sort.Sorter;
 
-import java.awt.print.Pageable;
-
-public class PageRequest implements Pageble {
+public class PageRequest implements Pageable {
     private Integer page;
     private Integer maxPageItem;
     private Sorter sorter;
@@ -14,6 +12,10 @@ public class PageRequest implements Pageble {
         this.page = page;
         this.maxPageItem = maxPageItem;
         this.sorter = sorter;
+    }
+
+    public static PageRequest of(Integer page, Integer size) {
+        return new PageRequest(page, size, null);
     }
 
     public Sorter getSorter() {

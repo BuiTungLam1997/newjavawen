@@ -1,12 +1,14 @@
 package com.example.javaweb.service.impl;
 
+import com.example.javaweb.controller.admin.api.request.NewQuery;
 import com.example.javaweb.dao.ICategoryDAO;
 import com.example.javaweb.dao.INewDAO;
 import com.example.javaweb.dao.impl.CategoryDAO;
 import com.example.javaweb.dao.impl.NewDAO;
 import com.example.javaweb.model.CategoryModel;
 import com.example.javaweb.model.NewModel;
-import com.example.javaweb.paging.Pageble;
+import com.example.javaweb.paging.Page;
+import com.example.javaweb.paging.Pageable;
 import com.example.javaweb.service.INewService;
 
 import java.sql.Timestamp;
@@ -63,12 +65,18 @@ public class NewService implements INewService {
     }
 
     @Override
-    public List<NewModel> findAll(Pageble pageble) {
-        return newDAO.findAll(pageble);
+    public List<NewModel> findAll(Pageable pageable) {
+        return newDAO.findAll(pageable);
     }
 
     @Override
     public int getTotalItem() {
         return newDAO.getToTalItem();
+    }
+
+    @Override
+    public Page<NewModel> query(NewQuery queryModel, Pageable pageable) {
+        NewModel model = NewModel.of(queryModel);
+        return newDAO.query(model, pageable);
     }
 }

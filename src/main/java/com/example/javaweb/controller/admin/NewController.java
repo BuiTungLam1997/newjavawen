@@ -4,7 +4,7 @@ import com.example.javaweb.constant.SystemConstant;
 import com.example.javaweb.model.CategoryModel;
 import com.example.javaweb.model.NewModel;
 import com.example.javaweb.paging.PageRequest;
-import com.example.javaweb.paging.Pageble;
+import com.example.javaweb.paging.Pageable;
 import com.example.javaweb.service.ICategoryService;
 import com.example.javaweb.service.INewService;
 import com.example.javaweb.service.impl.CategoryService;
@@ -33,10 +33,10 @@ public class NewController extends HttpServlet {
         String view = "";
         NewModel model = FormUtils.toModel(NewModel.class, request);
         if (model.getType().equals(SystemConstant.LIST)) {
-            Pageble pageble = new PageRequest(model.getPage(), model.getMaxPageItem(),
+            Pageable pageable = new PageRequest(model.getPage(), model.getMaxPageItem(),
                     new Sorter(model.getSortName(), model.getSortBy()));
             Integer offset = ((model.getPage() - 1) * model.getMaxPageItem());
-            model.setListResult(newService.findAll(pageble));
+            model.setListResult(newService.findAll(pageable));
             model.setTotalItem(newService.getTotalItem());
             model.setTotalPage((int) Math.ceil((double) model.getTotalItem() / model.getMaxPageItem()));
             view = "/views/admin/new/list.jsp";
